@@ -8,31 +8,22 @@ public class GameManager : MonoBehaviour
    // public GameObject manager;
     public GameObject attendee;
     public GameObject[] charPrefabs;
+    
     // Start is called before the first frame update
     void Start()
     {
         int numonCall;
         Text[] names;
+        GameObject screen = GameObject.Find("Screenwall");
+        
         //Connect to zoom
         //Collect info on how many people are on a call
-        //Demo for testing
-        
         numonCall = 16;
-        /*
-        names = new Text[numonCall];
-        //Demo
-        names[0].text = "Test";
-        names[1].text = "Please";
-        names[2].text = "Work";
-        */
+        
         //Collect who is host or co-host
         //
 
         //Demo
-        //-16 - 2
-        
-        //float posZ = 
-        
         for (int i = 0; i < numonCall; i++)
         {
             float posX;
@@ -40,59 +31,48 @@ public class GameManager : MonoBehaviour
             //Needs to spawn in in rows, one behind the other.
             var test = Instantiate(attendee);
             test.GetComponent<Attendees>().nameSpace.text = i.ToString();
+
+            test.transform.position = new Vector3(-9 + (3.5f * (i % 6)), 0.8f, 2 - (4 * Mathf.Floor(i / 6)));
             
-            if(i < 5)
-            {
-                test.transform.position = new Vector3(-9 + posX, 0.8f, 2);
-            }
-            if (5 <= i && i < 10)
-            {
-                test.transform.position = new Vector3(-9 + posX, 0.8f, 2 - 4);
-            }
-            if (10 <= i && i < 15)
-            {
-                test.transform.position = new Vector3(-9 + posX, 0.8f, 2 - 8);
-            }
-            //Arrays don't work????
-            //charPrefabs[i] = test;
-            /*
-            while(5 < i || i < 10)
-            {
-                test.transform.position = new Vector3(-9 + posX, 0.8f, 2 - 4);
-            }
-            while(10 < i || i < 15)
-            {
-                test.transform.position = new Vector3(-9 + posX, 0.8f, 22 - 8);
-            }
-            */
-
-
+            var videoPlayer = screen.AddComponent<UnityEngine.Video.VideoPlayer>();
+            videoPlayer.playOnAwake = false;
+            videoPlayer.Prepare();
+            
         }
         
-        /*
-        var test = (GameObject)Instantiate(attendee);
-        test.transform.position = new Vector3(0, 0, 12);
-        test.GetComponent<Attendees>().nameSpace.text = "Test";
-        */
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-       
+        //OVRInput.GetDown(OVRInput.Button.One);
+        FunStressRelief();
     }
-
+    
     public void Exit()
     {
         System.Environment.Exit(0);
     }
     public void StartVideo()
     {
-        //Activate video, or attach to zoom
+        
+        
     }
     public void FunStressRelief()
     {
+        GameObject[] Friends;
+        Physics2D.gravity = Vector3.zero;
         //access rigidbody, turn off gravity and give a bit of force.
+        
+        Friends = GameObject.FindGameObjectsWithTag("NPC");
+        //Random.InitState((int) Mathf.Floor(Time.time));
+        foreach(GameObject i in Friends)
+        {
+            Random.InitState(DateTime);
+            Debug.Log(i.name);
+            i.GetComponent<Rigidbody>().useGravity = false;
+            i.GetComponent<Rigidbody>().AddForce(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
+        }
+        
     }
 }

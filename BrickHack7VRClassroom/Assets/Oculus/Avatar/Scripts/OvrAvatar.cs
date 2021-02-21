@@ -191,6 +191,26 @@ public class OvrAvatar : MonoBehaviour
     private OvrAvatarPacket CurrentUnityPacket;
     public EventHandler<PacketEventArgs> PacketRecorded;
 
+    //WHAT WE'VE CHANGED
+    [SerializeField]
+     GameManager gameManager;
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.collider.name == "Start")
+        {
+            gameManager.StartVideo();
+        }
+        if(collision.collider.name == "Exit")
+        {
+            gameManager.Exit();
+        }
+        if(collision.collider.name == "Stress Relief")
+        {
+            gameManager.FunStressRelief();
+        }
+    }
+
+
     public enum HandType
     {
         Right,
